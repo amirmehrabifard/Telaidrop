@@ -115,7 +115,7 @@ async def start(update: Update, context: CallbackContext):
         await update.message.reply_text(MESSAGES["enter_wallet"][lang])
     else:
         ref_link = f"https://t.me/benjaminfranklintoken_bot?start={user_id}"
-        await update.message.reply_text(f"{MESSAGES['already_registered'][lang]}
+        await update.message.reply_text(f"{MESSAGES['already_registered'][lang]}\n\n🔗 {ref_link}")
 
 🔗 {ref_link}")
 
