@@ -39,31 +39,31 @@ conn.commit()
 MESSAGES = {
     "start": {
         "en": "Welcome! Please join our channel first and then press /start.",
-        "fa": "🔐 لطفاً ابتدا در کانال عضو شوید و سپس /start را بزنید.",
-        "ar": "🔐 الرجاء الانضمام إلى القناة أولاً ثم اضغط /start.",
-        "zh": "🔐 请先加入频道，然后点击 /start。",
-        "ru": "🔐 Сначала вступите в канал, затем нажмите /start.",
-        "fr": "🔐 Veuillez d'abord rejoindre le canal, puis appuyez sur /start."
+        "fa": " لطفاً ابتدا در کانال عضو شوید و سپس /start را بزنید.",
+        "ar": " الرجاء الانضمام إلى القناة أولاً ثم اضغط /start.",
+        "zh": " 请先加入频道，然后点击 /start。",
+        "ru": " Сначала вступите в канал, затем нажмите /start.",
+        "fr": " Veuillez d'abord rejoindre le canal, puis appuyez sur /start."
     },
     "enter_wallet": {
         "en": "Please enter your BSC wallet address:",
         "fa": "👛 لطفاً آدرس کیف پول BSC خود را وارد کنید:"
     },
     "invalid_wallet": {
-        "en": "❌ Invalid wallet address.",
-        "fa": "❌ آدرس کیف پول معتبر نیست."
+        "en": " Invalid wallet address.",
+        "fa": " آدرس کیف پول معتبر نیست."
     },
     "already_registered": {
-        "en": "🎉 You have already registered.",
-        "fa": "🎉 شما قبلاً ثبت‌نام کرده‌اید."
+        "en": " You have already registered.",
+        "fa": " شما قبلاً ثبت‌نام کرده‌اید."
     },
     "reward_sent": {
-        "en": "✅ 500 BJF tokens have been sent to your wallet.",
-        "fa": "✅ ۵۰۰ توکن BJF به کیف پول شما ارسال شد."
+        "en": " 500 BJF tokens have been sent to your wallet.",
+        "fa": " ۵۰۰ توکن BJF به کیف پول شما ارسال شد."
     },
     "ref_reward": {
-        "en": "🎁 Your referrer received 100 BJF tokens.",
-        "fa": "🎁 معرف شما ۱۰۰ توکن BJF دریافت کرد."
+        "en": " Your referrer received 100 BJF tokens.",
+        "fa": " معرف شما ۱۰۰ توکن BJF دریافت کرد."
     },
 }
 
@@ -115,9 +115,11 @@ async def start(update: Update, context: CallbackContext):
         await update.message.reply_text(MESSAGES["enter_wallet"][lang])
     else:
         ref_link = f"https://t.me/benjaminfranklintoken_bot?start={user_id}"
-        await update.message.reply_text(f"{MESSAGES['already_registered'][lang]}\n\n🔗 {ref_link}")
+        await update.message.reply_text(
+            f"{MESSAGES['already_registered'][lang]}\n\nReferral link: {ref_link}"
+        )
 
-🔗 {ref_link}")
+ {ref_link}")
 
 async def handle_wallet(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
@@ -145,7 +147,7 @@ async def handle_wallet(update: Update, context: CallbackContext):
             conn.commit()
             await update.message.reply_text(MESSAGES["reward_sent"][lang])
         except Exception as e:
-            await update.message.reply_text(f"❌ Token send error: {e}")
+            await update.message.reply_text(f" Token send error: {e}")
             return
 
         c.execute("SELECT invited_by FROM users WHERE user_id = ?", (user_id,))
@@ -162,7 +164,9 @@ async def handle_wallet(update: Update, context: CallbackContext):
                     pass
 
     ref_link = f"https://t.me/benjaminfranklintoken_bot?start={user_id}"
-    await update.message.reply_text(f"🔗 {ref_link}")
+        await update.message.reply_text(
+            f"{MESSAGES['already_registered'][lang]}\n\nReferral link: {ref_link}"
+        )
 
 if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
